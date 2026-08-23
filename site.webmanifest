@@ -1,0 +1,26 @@
+{
+  "name": "Think Through Technology",
+  "short_name": "Think Through",
+  "description": "Website design & development studio in Chennai — fast, mobile-first, business-ready websites.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c16",
+  "theme_color": "#0b0c16",
+  "icons": [
+    {
+      "src": "/assets/img/favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/logo-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
