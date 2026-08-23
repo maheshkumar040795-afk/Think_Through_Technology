@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Projects — Think Through Technology</title>
+<meta name="description" content="A selection of websites, portals and business platforms built by Think Through Technology — real estate, healthcare, hospitality, construction and more.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/logo-180.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script>
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('ttt-theme') || 'dark');
+</script>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<!-- Navbar -->
+<header class="nav" id="siteNav">
+  <a href="index.html#top" class="brand-logo">
+    <span class="glyph"><img src="assets/img/logo.png" alt="Think Through Technology logo"></span>
+    <span class="brand-text">Think Through<small>TECHNOLOGY</small></span>
+  </a>
+  <nav class="links">
+    <a href="index.html">Home</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="about.html">About</a>
+    <a href="testimonials.html">Testimonials</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="theme-toggle" aria-label="Toggle day/night mode"><i class="fa-solid fa-sun"></i></button>
+    <a href="index.html#contact" class="nav-cta">Start a Project</a>
+    <div class="burger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="projects.html" class="active">Projects</a>
+  <a href="about.html">About</a>
+  <a href="testimonials.html">Testimonials</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="index.html#contact" class="btn-primary mm-cta"><i class="fa-brands fa-whatsapp"></i> Start a Project</a>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="breadcrumb"><a href="index.html">Home</a><i class="fa-solid fa-chevron-right"></i><span>Projects</span></div>
+  <h1>Work we've <span style="background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;">shipped</span></h1>
+  <p class="sub" style="margin-top:22px;">Real client websites and platforms across healthcare, real estate, hospitality, construction and more — each built single-file, mobile-first, and wired to run itself.</p>
+</section>
+
+<!-- Filters: animated train — each car is a clickable category -->
+<div class="station-board-wrap">
+  <div class="station-sign">
+    <div class="board"><i class="fa-solid fa-train-subway"></i><span>THINK THROUGH TECHNOLOGY</span><small>STATION</small></div>
+    <div class="post"></div>
+    <div class="post"></div>
+  </div>
+</div>
+<div class="train-viewport" id="trainViewport">
+  <div class="train-track"></div>
+  <div class="train-container" id="trainContainer"></div>
+</div>
+
+<!-- Grid -->
+<div class="projects-grid" id="projectsGrid"></div>
+
+<!-- Final CTA -->
+<section class="cta-final" id="contact" style="margin-top:60px;">
+  <h2>Got a business that needs a site like this?</h2>
+  <p>Tell us what you're building — we'll think it through and get back within a day.</p>
+  <div class="hero-ctas">
+    <a href="https://wa.me/918220079120?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> +91 82200 79120</a>
+    <a href="mailto:thinkthroughtechnology@gmail.com" class="btn-ghost"><i class="fa-solid fa-envelope"></i> thinkthroughtechnology@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">
+    <span class="glyph"><img src="assets/img/logo.png" alt=""></span>
+    <span>© <span id="year"></span> Think Through Technology. All rights reserved.</span>
+  </div>
+  <div class="f-links">
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="about.html">About</a>
+    <a href="testimonials.html">Testimonials</a>
+    <a href="mailto:thinkthroughtechnology@gmail.com">Email</a>
+  </div>
+  <div class="f-social">
+    <a href="https://wa.me/918220079120" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a href="https://www.instagram.com/thinkthroughtechnology?igsi=MXBtcmg1cXJ1Y25q" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+  </div>
+</footer>
+
+<a class="float-ig" href="https://www.instagram.com/thinkthroughtechnology?igsi=MXBtcmg1cXJ1Y25q" target="_blank" aria-label="Follow on Instagram"><i class="fa-brands fa-instagram"></i></a>
+<a class="float-wa" href="https://wa.me/918220079120?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+<script src="assets/js/main.js"></script>
+<script>
+const CATS = ['All', 'Real Estate', 'Healthcare', 'Hospitality', 'Construction', 'Creative', 'Business'];
+
+const projects = [
+  { name:'Andavar Ambulance',        cat:'Healthcare',   color:'#f5a623', desc:'Ambulance booking platform with live location autocomplete and instant WhatsApp/SMS dispatch alerts.', stack:['Firebase','Leaflet.js','WhatsApp API'], url:'https://www.andavarambulance.in/', img:'andavar.jpg' },
+  { name:'God Bless Ambulance',      cat:'Healthcare',   color:'#f5a623', desc:'Emergency ambulance booking site with mobile-first design and one-tap call/WhatsApp dispatch.', stack:['Firebase','WhatsApp API'], url:'https://godblessambulance.in/', img:'godblessambulance.jpg' },
+  { name:'Ammanaina Real Estate',    cat:'Real Estate',  color:'#d4af37', desc:'Full rebrand with a warm brown & gold palette, Firebase-backed listings and document uploads.', stack:['Firebase','Cloudinary','GitHub Pages'], url:'https://maheshkumar040795-afk.github.io/Ammanaina_Real_Estate/', img:'ammanaina.jpg' },
+  { name:'MRP Real Estate',          cat:'Real Estate',  color:'#d4af37', desc:'Property portal with price-unit dropdowns, document download and Google Apps Script uploads.', stack:['Firebase','Apps Script'], url:'https://maheshkumar040795-afk.github.io/MRP_Real_Estate/', img:'mrprealestate.jpg' },
+  { name:'Nizhal Promoters',         cat:'Real Estate',  color:'#d4af37', desc:'Real estate promoter portal with Firebase-driven listings and enquiry capture.', stack:['Firebase','GitHub Pages'], url:'https://nizhalpromoters.in/', img:'nizhalpromoters.jpg' },
+  { name:'Kurinji Resort',           cat:'Hospitality',  color:'#a3336b', desc:'Two-portal booking platform with season rates, room management and WhatsApp booking flow.', stack:['Firebase','WhatsApp API'], url:'https://kurinjiresort.in/', img:'kurinji.jpg' },
+  { name:'ZorroCut',                 cat:'Business',     color:'#ff6a1a', desc:'Barbershop management system — billing, employee attendance, combos, expenses and customer autosuggest.', stack:['Firebase','Billing System'], url:'https://zorrocut.com/', img:'zorrocut.jpg' },
+  { name:'Just Look',                cat:'Business',     color:'#ff6a1a', desc:'Multi-page site for a tailoring & uniform business with catalog and enquiry forms.', stack:['HTML/CSS/JS','WhatsApp API'], url:'https://justlookshop.in/', img:'justlook.jpg' },
+  { name:'Ridhanova Workforce',      cat:'Business',     color:'#ff6a1a', desc:'Recruitment site with an Apps Script-powered application form backend.', stack:['Apps Script','GitHub Pages'], url:'https://ridhanova.com/', img:'ridhanovaworkforce.jpg' },
+  { name:'PC Builders',              cat:'Construction', color:'#2f8fe0', desc:'Construction company site with detailed package specs, SEO and custom domain setup.', stack:['SEO','GoDaddy DNS'], url:'https://pcbuilders.co.in/', img:'pcbuilders.jpg' },
+  { name:'Brihas Construction',      cat:'Construction', color:'#2f8fe0', desc:'Steel-and-gold themed construction site with iterative feature builds.', stack:['HTML/CSS/JS'], url:'https://brihasconstruction.in/', img:'brihasconstruction.jpg' },
+  { name:'Blue Peak Constructions',  cat:'Construction', color:'#2f8fe0', desc:'Corporate construction site with services, project gallery and enquiry flow.', stack:['HTML/CSS/JS'], url:'https://bluepeakconstructions.com/', img:'bluepeak.jpg' },
+  { name:'Jeeva Jee Builders',       cat:'Construction', color:'#2f8fe0', desc:'Construction & interiors site with iterative feature development.', stack:['HTML/CSS/JS'], url:'https://maheshkumar040795-afk.github.io/Jeeva-_jee-_Builders/', img:'jeevajee.jpg' },
+  { name:'Buildo Interior & Const.', cat:'Construction', color:'#2f8fe0', desc:'Interior + construction site with GSAP scroll-driven frame animation hero.', stack:['GSAP ScrollTrigger'], url:'https://maheshkumar040795-afk.github.io/Buildo_Construction/', img:'buildointeriorconst.jpg' },
+  { name:'Srikrithanya Pvt Ltd',     cat:'Construction', color:'#f5a623', desc:'5-page engineering firm site — fire, electrical & MEP — with FAQ, sitemap and DNS setup.', stack:['GitHub Pages','SEO'], url:'https://srikrithanya.com/', img:'srikrithanya.jpg' },
+  { name:'BMS Photography Studioz',  cat:'Creative',     color:'#d4af37', desc:'Photography studio site with a Three.js hero, team section and Cloudinary gallery.', stack:['Three.js','Cloudinary'], url:'https://bmsphotographystudioz.in/', img:'bms.jpg' },
+  { name:'ALLBE Holidays',           cat:'Business',     color:'#1f7a4d', desc:'Travel agency site with day/night mode, mobile flip cards and full SEO setup.', stack:['SEO','Cloudinary'], url:'https://allbe.in/', img:'allbe.jpg' },
+];
+
+const grid = document.getElementById('projectsGrid');
+const trainContainer = document.getElementById('trainContainer');
+const trainViewport = document.getElementById('trainViewport');
+
+CATS.forEach((cat, i) => {
+  const isEngine = i === CATS.length - 1; // last car is the locomotive
+  const car = document.createElement('div');
+  car.className = 'train-car' + (cat === 'All' ? ' active' : '') + (isEngine ? ' engine' : '');
+  car.dataset.cat = cat;
+  car.style.setProperty('--i', i);
+  const windowCount = isEngine ? 4 : 5;
+  car.innerHTML = `
+    <div class="roof"></div>
+    <div class="body"></div>
+    <div class="windows">${Array.from({length: windowCount}).map(() => '<span></span>').join('')}</div>
+    <div class="wheels"><i></i><i></i><i></i><i></i></div>
+    <div class="label">${cat}</div>
+    ${isEngine ? `
+      <div class="chimney"></div>
+      <span class="smoke"></span><span class="smoke"></span><span class="smoke"></span>
+      <div class="flagpole"></div>
+      <div class="flag"><span>Our Work<br>Journey</span></div>
+    ` : ''}
+  `;
+  car.addEventListener('click', () => {
+    document.querySelectorAll('.train-car').forEach(c => c.classList.remove('active'));
+    car.classList.add('active');
+    renderGrid(cat);
+  });
+  trainContainer.appendChild(car);
+});
+
+/* ---------- Cinematic run-in: train arrives at the station 2s after the page is ready ---------- */
+trainContainer.classList.add('pending');
+trainViewport.classList.add('animating');
+setTimeout(() => {
+  trainContainer.classList.remove('pending');
+  trainContainer.classList.add('arriving');
+  trainContainer.addEventListener('transitionend', function onArrive(e){
+    if (e.propertyName !== 'transform') return;
+    trainContainer.removeEventListener('transitionend', onArrive);
+    trainContainer.classList.add('arrived');
+    trainViewport.classList.remove('animating');
+    trainViewport.classList.add('impact');
+    setTimeout(() => trainViewport.classList.remove('impact'), 450);
+  });
+}, 2000);
+
+function renderGrid(filter){
+  grid.innerHTML = '';
+  const list = filter === 'All' ? projects : projects.filter(p => p.cat === filter);
+  list.forEach(p => {
+    const card = document.createElement(p.url ? 'a' : 'div');
+    card.className = 'project-card';
+    if (p.url) { card.href = p.url; card.target = '_blank'; card.rel = 'noopener'; }
+    card.innerHTML = `
+      <div class="shot" style="background-image:url('assets/projects/${p.img}'), linear-gradient(135deg, ${p.color}33, ${p.color}0d);">
+        <span class="tag"><span class="dot" style="background:${p.color}"></span>${p.cat}</span>
+        ${p.url ? '<span class="visit"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Site</span>' : ''}
+      </div>
+      <div class="body">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="stack">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+renderGrid('All');
+</script>
+</body>
+</html>
