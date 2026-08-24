@@ -39,6 +39,75 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+  /* Mobile safety net: keep the hero headline from clipping on narrow screens */
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: clamp(22px, 7.2vw, 32px) !important;
+      line-height: 1.2 !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+      max-width: 100% !important;
+      padding: 0 20px !important;
+      box-sizing: border-box !important;
+    }
+    .hero h1 .line { overflow: visible !important; }
+    .hero { overflow-x: hidden; padding-left: 0; padding-right: 0; }
+    .hero .sub { padding: 0 20px !important; box-sizing: border-box !important; }
+  }
+
+  /* Catchy "View Our Work" CTA */
+  .btn-ghost {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px solid rgba(124,92,255,0.6) !important;
+    transition: color .35s ease, border-color .35s ease;
+    animation: btnGlow 2.2s ease-in-out infinite, btnVibrate 3.2s ease-in-out infinite;
+  }
+  .btn-ghost::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #7c5cff, #34d3e0);
+    transform: translateX(-101%);
+    transition: transform .4s ease;
+    z-index: -1;
+  }
+  .btn-ghost:hover {
+    color: #fff !important;
+    border-color: transparent !important;
+    animation: none;
+  }
+  .btn-ghost:hover::before { transform: translateX(0); }
+  .btn-ghost .btn-arrow {
+    transition: transform .35s ease;
+  }
+  .btn-ghost:hover .btn-arrow {
+    transform: translateX(5px);
+  }
+
+  @keyframes btnGlow {
+    0%, 100% { box-shadow: 0 0 4px rgba(124,92,255,0.35), 0 0 10px rgba(52,211,224,0.15); border-color: rgba(124,92,255,0.55); }
+    50%      { box-shadow: 0 0 16px rgba(124,92,255,0.85), 0 0 30px rgba(52,211,224,0.55); border-color: rgba(52,211,224,0.9); }
+  }
+  @keyframes btnVibrate {
+    0%, 92%, 100% { transform: translate(0, 0); }
+    93%  { transform: translate(-1.5px, 0); }
+    94%  { transform: translate(1.5px, -1px); }
+    95%  { transform: translate(-1.5px, 1px); }
+    96%  { transform: translate(1.5px, 0); }
+    97%  { transform: translate(-1px, -1px); }
+    98%  { transform: translate(1px, 1px); }
+    99%  { transform: translate(0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-ghost { animation: none !important; }
+  }
+</style>
 
 <script type="application/ld+json">
 {
@@ -144,14 +213,13 @@
   </div>
   <div class="eyebrow">WEBSITE DESIGN &amp; DEVELOPMENT STUDIO</div>
   <h1>
-    <span class="line"><span>We Design.</span></span>
-    <span class="line"><span>We Develop.</span></span>
-    <span class="line"><span class="grad">We Think Through.</span></span>
+    <span class="line"><span>Transforming Your Ideas</span></span>
+    <span class="line"><span class="grad">Into Digital Reality.</span></span>
   </h1>
   <p class="sub">Think Through Technology builds fast, beautiful, business‑ready websites — from real estate portals to booking platforms — engineered to convert visitors into customers.</p>
   <div class="hero-ctas">
     <a href="https://wa.me/918220079120?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Start a Project</a>
-    <a href="projects.html" class="btn-ghost">View Our Work</a>
+    <a href="projects.html" class="btn-ghost">View Our Work <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
   </div>
   <div class="scroll-cue"><span>SCROLL</span><div class="mouse"><div class="dot"></div></div></div>
 </section>

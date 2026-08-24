@@ -39,6 +39,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .swipe-hint {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto 0;
+    padding: 7px 16px;
+    width: max-content;
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .2px;
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    animation: swipeHintFade 2.6s ease-in-out infinite;
+  }
+  .swipe-hint i {
+    animation: swipeHintMove 1.6s ease-in-out infinite;
+    transform: scaleX(-1); /* point left */
+  }
+  .swipe-hint.hidden { display: none !important; }
+  @keyframes swipeHintMove {
+    0%, 100% { transform: scaleX(-1) translateX(0); }
+    50%      { transform: scaleX(-1) translateX(-6px); }
+  }
+  @keyframes swipeHintFade {
+    0%, 100% { opacity: .65; }
+    50%      { opacity: 1; }
+  }
+  @media (max-width: 768px) {
+    .swipe-hint { display: inline-flex; }
+    .train-viewport { margin-bottom: 8px !important; padding-bottom: 10px !important; }
+    .swipe-hint { margin-top: 0; }
+  }
+</style>
 
 <script type="application/ld+json">
 {
@@ -128,6 +166,7 @@
   <div class="train-track"></div>
   <div class="train-container" id="trainContainer"></div>
 </div>
+<div class="swipe-hint" id="swipeHint"><i class="fa-solid fa-hand-pointer"></i><span>Slide the train left to see more</span></div>
 
 <!-- Grid -->
 <div class="projects-grid" id="projectsGrid"></div>
@@ -238,7 +277,15 @@ setTimeout(() => {
 
 function renderGrid(filter){
   grid.innerHTML = '';
-  const list = filter === 'All' ? projects : projects.filter(p => p.cat === filter);
+  let list;
+  if (filter === 'All') {
+    const priorityOrder = ['ALLBE Holidays', 'Blue Peak Constructions', 'Just Look', 'Buildo Interior & Const.', 'Nizhal Promoters'];
+    const priority = priorityOrder.map(name => projects.find(p => p.name === name)).filter(Boolean);
+    const rest = projects.filter(p => !priorityOrder.includes(p.name));
+    list = [...priority, ...rest];
+  } else {
+    list = projects.filter(p => p.cat === filter);
+  }
   list.forEach(p => {
     const card = document.createElement(p.url ? 'a' : 'div');
     card.className = 'project-card';
@@ -258,6 +305,16 @@ function renderGrid(filter){
 }
 
 renderGrid('All');
+
+/* Hide the mobile "slide the train left" hint once the user actually swipes it */
+(function () {
+  const hint = document.getElementById('swipeHint');
+  const viewport = document.getElementById('trainViewport');
+  if (!hint || !viewport) return;
+  const dismiss = () => { hint.classList.add('hidden'); viewport.removeEventListener('scroll', dismiss); };
+  viewport.addEventListener('scroll', dismiss, { passive: true });
+  viewport.addEventListener('touchmove', dismiss, { passive: true });
+})();
 </script>
 </body>
 </html>
