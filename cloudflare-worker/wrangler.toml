@@ -1,0 +1,14 @@
+# Optional — only needed if you deploy with the Wrangler CLI.
+# (You can also paste worker.js into the Cloudflare dashboard editor instead.)
+name = "ttt-payment-links"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+CASHFREE_ENV = "sandbox"            # change to "production" after Cashfree approval
+ALLOWED_ORIGIN = "https://thinkthroughtechnology.in"
+RETURN_URL = "https://thinkthroughtechnology.in/payment-status.html"
+
+# Secrets — set these with:  npx wrangler secret put CASHFREE_APP_ID
+#                            npx wrangler secret put CASHFREE_SECRET_KEY
+#                            npx wrangler secret put ADMIN_PASSWORD

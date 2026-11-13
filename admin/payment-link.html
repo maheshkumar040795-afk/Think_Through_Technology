@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Generate Payment Link — Think Through Technology (Admin)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg:#050509; --panel:#10121e; --field:#0b0c16; --line:rgba(255,255,255,.09); --text:#f4f5fb; --muted:#9198b3;
+    --accent:#8b6bff; --accent2:#22e1ff; --grad:linear-gradient(120deg,#8b6bff 0%,#22e1ff 100%);
+    --ok:#2ee59d; --warn:#ffcf7a; --bad:#ff6b81; --r:16px;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:radial-gradient(ellipse at top, #15122e 0%, var(--bg) 55%); color:var(--text); font-family:Inter,system-ui,sans-serif; min-height:100vh; }
+  h1,h2,h3,b.h{ font-family:Sora,sans-serif; }
+  .top{ display:flex; align-items:center; justify-content:space-between; padding:20px 24px; max-width:1100px; margin:0 auto; }
+  .brand{ display:flex; align-items:center; gap:12px; color:var(--text); text-decoration:none; font-family:Sora; font-weight:600; }
+  .brand img{ width:38px; height:38px; border-radius:10px; }
+  .brand small{ display:block; font-size:10px; letter-spacing:.22em; color:var(--muted); font-weight:500; }
+  .logout{ background:none; border:1px solid var(--line); color:var(--muted); padding:8px 14px; border-radius:999px; cursor:pointer; font:inherit; font-size:13px; }
+  .logout:hover{ color:var(--text); border-color:var(--accent2); }
+  main{ max-width:1100px; margin:0 auto; padding:10px 24px 80px; display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:start; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:28px; position:relative; overflow:hidden; }
+  .card.accent::before{ content:''; position:absolute; inset:0 0 auto 0; height:3px; background:var(--grad); }
+  .card h2{ margin:0 0 4px; font-size:22px; }
+  .card .sub{ margin:0 0 22px; color:var(--muted); font-size:14px; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .full{ grid-column:1/-1; }
+  label{ display:block; font-size:12.5px; font-weight:600; color:var(--muted); margin-bottom:6px; letter-spacing:.02em; }
+  label .req{ color:var(--accent2); }
+  input, select, textarea{
+    width:100%; background:var(--field); color:var(--text); border:1px solid var(--line); border-radius:12px;
+    padding:12px 14px; font:inherit; font-size:15px; outline:none; transition:border-color .2s, box-shadow .2s;
+  }
+  input:focus, select:focus, textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(139,107,255,.18); }
+  .amount-wrap{ position:relative; }
+  .amount-wrap span{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); font-weight:600; }
+  .amount-wrap input{ padding-left:30px; font-family:Sora; font-size:22px; font-weight:700; }
+  .checks{ display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:4px; }
+  .checks label{ display:flex; align-items:center; gap:8px; font-weight:500; color:var(--text); font-size:14px; margin:0; cursor:pointer; }
+  .checks input{ width:auto; accent-color:var(--accent); }
+  #partialRow{ display:none; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:9px; border:0; border-radius:999px; padding:14px 22px; font:600 15px Inter,sans-serif; cursor:pointer; text-decoration:none; transition:transform .2s, opacity .2s; }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn:disabled{ opacity:.5; cursor:wait; transform:none; }
+  .btn-primary{ background:var(--grad); color:#08080d; }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--line); }
+  .btn-wa{ background:#25d366; color:#06130b; }
+  .btn-block{ width:100%; margin-top:20px; }
+  .msg{ margin-top:14px; font-size:14px; padding:12px 14px; border-radius:12px; display:none; }
+  .msg.err{ display:block; background:rgba(255,107,129,.1); border:1px solid rgba(255,107,129,.35); color:#ffb3bf; }
+  .result{ display:none; }
+  .result .amt{ font-family:Sora; font-size:34px; font-weight:700; margin:6px 0 2px; }
+  .result .who{ color:var(--muted); font-size:14px; margin-bottom:18px; }
+  .linkbox{ display:flex; gap:8px; background:var(--field); border:1px solid var(--line); border-radius:12px; padding:6px 6px 6px 14px; align-items:center; }
+  .linkbox input{ border:0; padding:8px 0; background:transparent; font-size:14px; color:var(--accent2); box-shadow:none; }
+  .linkbox button{ flex:0 0 auto; padding:10px 14px; font-size:13px; }
+  .share{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .pill{ display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; letter-spacing:.03em; }
+  .pill.ACTIVE{ background:rgba(34,225,255,.12); color:var(--accent2); }
+  .pill.PAID{ background:rgba(46,229,157,.14); color:var(--ok); }
+  .pill.PARTIALLY_PAID{ background:rgba(255,207,122,.14); color:var(--warn); }
+  .pill.EXPIRED, .pill.CANCELLED{ background:rgba(255,107,129,.12); color:var(--bad); }
+  .recent h3{ margin:0 0 14px; font-size:16px; display:flex; justify-content:space-between; align-items:center; }
+  .recent h3 button{ font-size:12px; padding:6px 12px; }
+  .row{ display:flex; justify-content:space-between; gap:10px; padding:14px 0; border-top:1px solid var(--line); align-items:center; }
+  .row:first-of-type{ border-top:0; }
+  .row .l b{ display:block; font-size:14.5px; }
+  .row .l span{ font-size:12.5px; color:var(--muted); }
+  .row .r{ text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .row .r a{ font-size:12px; color:var(--muted); }
+  .empty{ color:var(--muted); font-size:14px; }
+  /* Login */
+  .login{ max-width:400px; margin:12vh auto 0; padding:0 24px; }
+  .login .card{ text-align:center; }
+  .login .lock{ width:56px; height:56px; border-radius:16px; display:grid; place-items:center; margin:0 auto 16px; background:var(--grad); color:#08080d; font-size:22px; }
+  .hidden{ display:none !important; }
+  @media (max-width:880px){ main{ grid-template-columns:1fr; } .grid{ grid-template-columns:1fr; } .card{ padding:22px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="/"><img src="/assets/img/logo.png" alt=""><span>Think Through<small>PAYMENT LINKS</small></span></a>
+  <button class="logout hidden" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Lock</button>
+</header>
+
+<!-- Login -->
+<section class="login" id="loginView">
+  <div class="card accent">
+    <div class="lock"><i class="fa-solid fa-lock"></i></div>
+    <h2>Admin access</h2>
+    <p class="sub">Enter the admin password to generate payment links.</p>
+    <form id="loginForm">
+      <input type="password" id="pw" placeholder="Admin password" autocomplete="current-password" required>
+      <button class="btn btn-primary btn-block" type="submit"><i class="fa-solid fa-unlock"></i> Unlock</button>
+    </form>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+</section>
+
+<!-- App -->
+<main id="appView" class="hidden">
+  <div>
+    <div class="card accent" id="formCard">
+      <h2>New payment link</h2>
+      <p class="sub">Enter the amount and customer details. The customer can pay by UPI, card, net banking or wallet.</p>
+      <form id="linkForm" novalidate>
+        <div class="grid">
+          <div class="full">
+            <label for="amount">Amount <span class="req">*</span></label>
+            <div class="amount-wrap"><span>₹</span><input id="amount" type="number" inputmode="decimal" min="1" step="0.01" placeholder="0" required></div>
+          </div>
+          <div>
+            <label for="name">Customer name <span class="req">*</span></label>
+            <input id="name" type="text" placeholder="e.g. R. Nirmal" required>
+          </div>
+          <div>
+            <label for="phone">Mobile number <span class="req">*</span></label>
+            <input id="phone" type="tel" inputmode="numeric" maxlength="14" placeholder="10-digit mobile" required>
+          </div>
+          <div>
+            <label for="email">Email (optional)</label>
+            <input id="email" type="email" placeholder="customer@email.com">
+          </div>
+          <div>
+            <label for="invoiceNo">Invoice / Quote no. (optional)</label>
+            <input id="invoiceNo" type="text" placeholder="e.g. INV-0142">
+          </div>
+          <div class="full">
+            <label for="purpose">Payment for <span class="req">*</span></label>
+            <select id="purpose">
+              <option>Website development — advance</option>
+              <option>Website development — balance payment</option>
+              <option>Website development — full payment</option>
+              <option>Domain &amp; hosting renewal</option>
+              <option>Website maintenance</option>
+              <option>CRM / software development</option>
+              <option value="__other">Other (type below)</option>
+            </select>
+            <input id="purposeOther" class="hidden" type="text" placeholder="Describe the payment" style="margin-top:8px">
+          </div>
+          <div>
+            <label for="expiry">Link valid for</label>
+            <select id="expiry">
+              <option value="1">1 day</option>
+              <option value="3">3 days</option>
+              <option value="7" selected>7 days</option>
+              <option value="15">15 days</option>
+              <option value="30">30 days</option>
+            </select>
+          </div>
+          <div>
+            <label>Cashfree notifications</label>
+            <div class="checks">
+              <label><input type="checkbox" id="sendSms"> SMS</label>
+              <label><input type="checkbox" id="sendEmail"> Email</label>
+            </div>
+          </div>
+          <div class="full">
+            <div class="checks"><label><input type="checkbox" id="partial"> Allow part payment</label></div>
+          </div>
+          <div class="full" id="partialRow">
+            <label for="minPartial">Minimum first payment (₹)</label>
+            <input id="minPartial" type="number" min="1" step="0.01" placeholder="e.g. 5000">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="genBtn" type="submit"><i class="fa-solid fa-link"></i> Generate payment link</button>
+        <div class="msg" id="formMsg"></div>
+      </form>
+    </div>
+
+    <div class="card accent result" id="resultCard">
+      <span class="pill ACTIVE" id="resStatus"><i class="fa-solid fa-circle" style="font-size:7px"></i> ACTIVE</span>
+      <div class="amt" id="resAmt">₹0</div>
+      <div class="who" id="resWho"></div>
+      <div class="linkbox">
+        <input id="resUrl" readonly>
+        <button class="btn btn-ghost" id="copyBtn" type="button"><i class="fa-regular fa-copy"></i> Copy</button>
+      </div>
+      <div class="share">
+        <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Send on WhatsApp</a>
+        <a class="btn btn-ghost" id="mailBtn"><i class="fa-solid fa-envelope"></i> Send by email</a>
+      </div>
+      <button class="btn btn-ghost btn-block" id="newBtn" type="button"><i class="fa-solid fa-plus"></i> Create another link</button>
+    </div>
+  </div>
+
+  <aside class="card recent">
+    <h3>Recent links <button class="btn btn-ghost" id="refreshAll" type="button"><i class="fa-solid fa-rotate"></i> Refresh status</button></h3>
+    <div id="recentList"><p class="empty">Links you create on this device will appear here.</p></div>
+  </aside>
+</main>
+
+<script>
+/* ==============================================================
+   CONFIG — URL of the deployed Cloudflare Worker (cloudflare-worker/worker.js)
+   Cloudflare Worker URL, e.g. 'https://ttt-payment-links.YOUR-NAME.workers.dev'
+   ============================================================== */
+const API_BASE = 'https://ttt-payment-links.YOUR-NAME.workers.dev';
+
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+let adminKey = '';
+try { adminKey = sessionStorage.getItem('ttt-admin') || ''; } catch(e){}
+
+const inr = n => '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+function showMsg(el, text){ el.textContent = text; el.className = 'msg err'; }
+function hideMsg(el){ el.className = 'msg'; }
+
+async function api(path, opts = {}){
+  const r = await fetch(API_BASE + path, {
+    ...opts, headers: { 'Content-Type':'application/json', 'X-Admin-Key': adminKey, ...(opts.headers || {}) }
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(data.error || 'Request failed'), { status: r.status });
+  return data;
+}
+
+function showApp(){
+  $('loginView').classList.add('hidden');
+  $('appView').classList.remove('hidden');
+  $('logoutBtn').classList.remove('hidden');
+  renderRecent();
+}
+function lock(){
+  adminKey = '';
+  try { sessionStorage.removeItem('ttt-admin'); } catch(e){}
+  $('appView').classList.add('hidden');
+  $('logoutBtn').classList.add('hidden');
+  $('loginView').classList.remove('hidden');
+}
+
+/* ---- Login: verified by calling the status endpoint with a dummy id ---- */
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  hideMsg($('loginMsg'));
+  adminKey = $('pw').value;
+  try {
+    await api('/api/link-status?id=TTT_PING');
+  } catch (err) {
+    if (err.status === 401) { showMsg($('loginMsg'), 'Wrong password.'); adminKey = ''; return; }
+    if (err.status === undefined) { showMsg($('loginMsg'), 'Cannot reach the payment server. Check API_BASE.'); adminKey=''; return; }
+    // 404 / other = password accepted, link simply doesn't exist
+  }
+  try { sessionStorage.setItem('ttt-admin', adminKey); } catch(e){}
+  $('pw').value = '';
+  showApp();
+});
+$('logoutBtn').addEventListener('click', lock);
+
+/* ---- Form behaviour ---- */
+$('purpose').addEventListener('change', () => {
+  $('purposeOther').classList.toggle('hidden', $('purpose').value !== '__other');
+});
+$('partial').addEventListener('change', () => {
+  $('partialRow').style.display = $('partial').checked ? 'block' : 'none';
+});
+
+$('linkForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  hideMsg($('formMsg'));
+  const purpose = $('purpose').value === '__other' ? $('purposeOther').value.trim() : $('purpose').value;
+  const body = {
+    amount: $('amount').value, name: $('name').value.trim(), phone: $('phone').value,
+    email: $('email').value.trim(), invoiceNo: $('invoiceNo').value.trim(), purpose,
+    expiryDays: $('expiry').value, sendSms: $('sendSms').checked, sendEmail: $('sendEmail').checked,
+    partial: $('partial').checked, minPartial: $('minPartial').value
+  };
+  if (!(Number(body.amount) >= 1)) return showMsg($('formMsg'), 'Enter an amount of at least ₹1.');
+  if (!body.name) return showMsg($('formMsg'), 'Enter the customer name.');
+  if (!/^[6-9]\d{9}$/.test(body.phone.replace(/\D/g,'').slice(-10))) return showMsg($('formMsg'), 'Enter a valid 10-digit mobile number.');
+  if (!purpose) return showMsg($('formMsg'), 'Describe what the payment is for.');
+
+  const btn = $('genBtn');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating…';
+  try {
+    const res = await api('/api/create-link', { method:'POST', body: JSON.stringify(body) });
+    const rec = { id: res.linkId, url: res.linkUrl, amount: res.amount, name: body.name,
+                  phone: body.phone.replace(/\D/g,'').slice(-10), email: body.email, purpose,
+                  invoiceNo: body.invoiceNo, status: res.status, created: Date.now() };
+    const list = store.get('ttt-links', []); list.unshift(rec); store.set('ttt-links', list.slice(0, 50));
+    showResult(rec);
+    renderRecent();
+  } catch (err) {
+    if (err.status === 401) { lock(); return; }
+    showMsg($('formMsg'), err.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-link"></i> Generate payment link';
+  }
+});
+
+function shareText(rec){
+  return `Hi ${rec.name},\n\nPlease use the secure link below to pay ${inr(rec.amount)} to Think Through Technology` +
+    `${rec.invoiceNo ? ` (Ref: ${rec.invoiceNo})` : ''} for ${rec.purpose}.\n\n${rec.url}\n\n` +
+    `You can pay by UPI, debit/credit card, net banking or wallet.\n\nThank you,\nThink Through Technology\n+91 80153 04105`;
+}
+
+function showResult(rec){
+  $('formCard').style.display = 'none';
+  $('resultCard').style.display = 'block';
+  $('resAmt').textContent = inr(rec.amount);
+  $('resWho').textContent = `${rec.name} · ${rec.phone}${rec.invoiceNo ? ' · ' + rec.invoiceNo : ''}`;
+  $('resUrl').value = rec.url;
+  setPill($('resStatus'), rec.status);
+  $('waBtn').href = `https://wa.me/91${rec.phone}?text=${encodeURIComponent(shareText(rec))}`;
+  $('mailBtn').href = `mailto:${rec.email || ''}?subject=${encodeURIComponent('Payment link — Think Through Technology')}&body=${encodeURIComponent(shareText(rec))}`;
+}
+function setPill(el, status){
+  status = status || 'ACTIVE';
+  el.className = 'pill ' + status;
+  el.innerHTML = `<i class="fa-solid fa-circle" style="font-size:7px"></i> ${status.replace('_',' ')}`;
+}
+
+$('copyBtn').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('resUrl').value); }
+  catch(e){ $('resUrl').select(); document.execCommand('copy'); }
+  $('copyBtn').innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+  setTimeout(() => $('copyBtn').innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 1800);
+});
+$('newBtn').addEventListener('click', () => {
+  $('linkForm').reset(); $('partialRow').style.display='none'; $('purposeOther').classList.add('hidden');
+  $('resultCard').style.display = 'none'; $('formCard').style.display = 'block'; $('amount').focus();
+});
+
+/* ---- Recent links ---- */
+function renderRecent(){
+  const list = store.get('ttt-links', []);
+  const box = $('recentList');
+  if (!list.length) { box.innerHTML = '<p class="empty">Links you create on this device will appear here.</p>'; return; }
+  box.innerHTML = '';
+  list.forEach((rec, i) => {
+    const row = document.createElement('div'); row.className = 'row';
+    const d = new Date(rec.created).toLocaleDateString('en-IN', { day:'2-digit', month:'short' });
+    row.innerHTML = `<div class="l"><b></b><span></span></div>
+      <div class="r"><span class="pill"></span><a href="#">Share again</a></div>`;
+    row.querySelector('b').textContent = `${inr(rec.amount)} · ${rec.name}`;
+    row.querySelector('.l span').textContent = `${d} · ${rec.invoiceNo || rec.purpose}`;
+    setPill(row.querySelector('.pill'), rec.status);
+    row.querySelector('a').addEventListener('click', ev => { ev.preventDefault(); showResult(rec); window.scrollTo({top:0,behavior:'smooth'}); });
+    box.appendChild(row);
+  });
+}
+$('refreshAll').addEventListener('click', async () => {
+  const btn = $('refreshAll'); btn.disabled = true;
+  const list = store.get('ttt-links', []);
+  for (const rec of list.slice(0, 15)) {
+    if (rec.status === 'PAID' || rec.status === 'CANCELLED') continue;
+    try { const s = await api('/api/link-status?id=' + encodeURIComponent(rec.id)); rec.status = s.status; rec.amountPaid = s.amountPaid; }
+    catch (err) { if (err.status === 401) { lock(); return; } }
+  }
+  store.set('ttt-links', list); renderRecent(); btn.disabled = false;
+});
+
+if (adminKey) showApp();
+</script>
+</body>
+</html>
