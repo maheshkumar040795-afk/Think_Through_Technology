@@ -223,8 +223,7 @@ const store = {
   get(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch(e){ return d; } },
   set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 };
-let adminKey = '';
-try { adminKey = sessionStorage.getItem('ttt-admin') || ''; } catch(e){}
+let adminKey = '';   // kept in memory only — password is asked every time the page is opened
 
 const inr = n => '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 });
 function showMsg(el, text){ el.textContent = text; el.className = 'msg err'; }
@@ -247,7 +246,6 @@ function showApp(){
 }
 function lock(){
   adminKey = '';
-  try { sessionStorage.removeItem('ttt-admin'); } catch(e){}
   $('appView').classList.add('hidden');
   $('logoutBtn').classList.add('hidden');
   $('loginView').classList.remove('hidden');
@@ -265,7 +263,6 @@ $('loginForm').addEventListener('submit', async e => {
     if (err.status === undefined) { showMsg($('loginMsg'), 'Cannot reach the payment server. Check API_BASE.'); adminKey=''; return; }
     // 404 / other = password accepted, link simply doesn't exist
   }
-  try { sessionStorage.setItem('ttt-admin', adminKey); } catch(e){}
   $('pw').value = '';
   showApp();
 });
@@ -398,7 +395,7 @@ $('refreshAll').addEventListener('click', async () => {
   store.set('ttt-links', list); renderRecent(); btn.disabled = false;
 });
 
-if (adminKey) showApp();
+$('pw').focus();
 </script>
 </body>
 </html>

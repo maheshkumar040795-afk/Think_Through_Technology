@@ -921,3 +921,5 @@ footer .f-social a:hover{ color:var(--accent2); }
 footer .f-legal{ flex-basis:100%; display:flex; flex-wrap:wrap; gap:8px 22px; padding-top:18px; border-top:1px solid var(--line); font-size:12.5px; }
 footer .f-legal a:hover{ color:var(--accent2); }
 @media (max-width:640px){ .contact-cards{ grid-template-columns:1fr; } }
+footer .f-admin{ display:inline-grid; place-items:center; width:20px; height:20px; opacity:.3; color:var(--muted); transition:opacity .3s, color .3s; }
+footer .f-admin:hover{ opacity:.9; color:var(--accent2); }
