@@ -32,11 +32,8 @@
 <link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0b0c16">
+<meta name="theme-color" content="#0e1a3a">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
@@ -48,7 +45,7 @@
     margin: 10px auto 0;
     padding: 7px 16px;
     width: max-content;
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     font-size: 12.5px;
     font-weight: 500;
     letter-spacing: .2px;
@@ -107,7 +104,7 @@
 </script>
 
 <script>
-  document.documentElement.setAttribute('data-theme', localStorage.getItem('ttt-theme') || 'dark');
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('ttt-theme') || 'light');
 </script>
 </head>
 <body>
@@ -118,7 +115,7 @@
 <!-- Navbar -->
 <header class="nav" id="siteNav">
   <a href="index.html#top" class="brand-logo">
-    <span class="glyph"><img src="assets/img/logo.png" alt="Think Through Technology logo"></span>
+    <span class="glyph"><img src="assets/img/logo-180.png" alt="Think Through Technology logo"></span>
     <span class="brand-text">Think Through<small>TECHNOLOGY</small></span>
   </a>
   <nav class="links">
@@ -150,8 +147,8 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="breadcrumb"><a href="index.html">Home</a><i class="fa-solid fa-chevron-right"></i><span>Projects</span></div>
-  <h1>Work we've <span style="background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;">shipped</span></h1>
-  <p class="sub" style="margin-top:22px;">Real client websites and platforms across healthcare, real estate, hospitality, construction and more — each built single-file, mobile-first, and wired to run itself.</p>
+  <h1>Work we've <span class="hl">shipped</span></h1>
+  <p class="sub" style="margin-top:22px;">Real client websites across healthcare, real estate, hospitality and construction. Tap any card to open the live site.</p>
 </section>
 
 <!-- Filters: animated train — each car is a clickable category -->
@@ -174,7 +171,7 @@
 <!-- Final CTA -->
 <section class="cta-final" id="contact" style="margin-top:60px;">
   <h2>Got a business that needs a site like this?</h2>
-  <p>Tell us what you're building — we'll think it through and get back within a day.</p>
+  <p>Tell us what you need on WhatsApp or by email. We reply within a day.</p>
   <div class="hero-ctas">
     <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> +91 80153 04105</a>
     <a href="mailto:thinkthroughtechnology@gmail.com" class="btn-ghost"><i class="fa-solid fa-envelope"></i> thinkthroughtechnology@gmail.com</a>
@@ -183,7 +180,7 @@
 
 <footer>
   <div class="f-brand">
-    <span class="glyph"><img src="assets/img/logo.png" alt=""></span>
+    <span class="glyph"><img src="assets/img/logo-180.png" alt=""></span>
     <span>© <span id="year"></span> Think Through Technology. All rights reserved.</span>
     <a href="admin/payment-link.html" class="f-admin" rel="nofollow" title="Payment links" aria-label="Payment links (admin)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2m-4 4 3 3m-6-0 3 3"/></svg></a>
   </div>
@@ -281,7 +278,7 @@ setTimeout(() => {
     trainViewport.classList.add('impact');
     setTimeout(() => trainViewport.classList.remove('impact'), 450);
   });
-}, 2000);
+}, 250);
 
 function renderGrid(filter){
   grid.innerHTML = '';

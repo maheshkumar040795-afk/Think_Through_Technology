@@ -32,82 +32,11 @@
 <link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0b0c16">
+<meta name="theme-color" content="#0e1a3a">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preload" href="assets/fonts/anek-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hanken-grotesk-wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<style>
-  /* Mobile safety net: keep the hero headline from clipping on narrow screens */
-  @media (max-width: 480px) {
-    .hero h1 {
-      font-size: clamp(22px, 7.2vw, 32px) !important;
-      line-height: 1.2 !important;
-      white-space: normal !important;
-      word-break: break-word !important;
-      overflow-wrap: break-word !important;
-      max-width: 100% !important;
-      padding: 0 20px !important;
-      box-sizing: border-box !important;
-    }
-    .hero h1 .line { overflow: visible !important; }
-    .hero { overflow-x: hidden; padding-left: 0; padding-right: 0; }
-    .hero .sub { padding: 0 20px !important; box-sizing: border-box !important; }
-  }
-
-  /* Catchy "View Our Work" CTA */
-  .btn-ghost {
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border: 1.5px solid rgba(124,92,255,0.6) !important;
-    transition: color .35s ease, border-color .35s ease;
-    animation: btnGlow 2.2s ease-in-out infinite, btnVibrate 3.2s ease-in-out infinite;
-  }
-  .btn-ghost::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, #7c5cff, #34d3e0);
-    transform: translateX(-101%);
-    transition: transform .4s ease;
-    z-index: -1;
-  }
-  .btn-ghost:hover {
-    color: #fff !important;
-    border-color: transparent !important;
-    animation: none;
-  }
-  .btn-ghost:hover::before { transform: translateX(0); }
-  .btn-ghost .btn-arrow {
-    transition: transform .35s ease;
-  }
-  .btn-ghost:hover .btn-arrow {
-    transform: translateX(5px);
-  }
-
-  @keyframes btnGlow {
-    0%, 100% { box-shadow: 0 0 4px rgba(124,92,255,0.35), 0 0 10px rgba(52,211,224,0.15); border-color: rgba(124,92,255,0.55); }
-    50%      { box-shadow: 0 0 16px rgba(124,92,255,0.85), 0 0 30px rgba(52,211,224,0.55); border-color: rgba(52,211,224,0.9); }
-  }
-  @keyframes btnVibrate {
-    0%, 92%, 100% { transform: translate(0, 0); }
-    93%  { transform: translate(-1.5px, 0); }
-    94%  { transform: translate(1.5px, -1px); }
-    95%  { transform: translate(-1.5px, 1px); }
-    96%  { transform: translate(1.5px, 0); }
-    97%  { transform: translate(-1px, -1px); }
-    98%  { transform: translate(1px, 1px); }
-    99%  { transform: translate(0, 0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn-ghost { animation: none !important; }
-  }
-</style>
 
 <script type="application/ld+json">
 {
@@ -138,38 +67,28 @@
 </script>
 
 <script>
-  document.documentElement.setAttribute('data-theme', localStorage.getItem('ttt-theme') || 'dark');
+  /* set theme and arm scroll reveals before first paint */
+  (function(){
+    var t = null; try { t = localStorage.getItem('ttt-theme'); } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t || 'light');
+    document.documentElement.classList.add('js');
+  })();
 </script>
 </head>
 <body>
 
-<div class="grain"></div>
-<div class="vignette"></div>
-
-<!-- Preloader -->
-<div id="preloader">
-  <div class="p-logo"><img src="assets/img/logo.png" alt="Think Through Technology"></div>
-  <div class="mark">THINK THROUGH TECHNOLOGY</div>
-  <div class="cat-track">
-    <div class="caterpillar" id="caterpillar">
-      <span class="c-seg"></span>
-      <span class="c-seg"></span>
-      <span class="c-seg"></span>
-      <span class="c-seg"></span>
-      <span class="c-seg c-head">
-        <span class="c-antenna c-antenna-l"></span>
-        <span class="c-antenna c-antenna-r"></span>
-        <span class="c-eye"></span>
-      </span>
-    </div>
-  </div>
-  <div class="pct" id="preloadPct">0%</div>
-</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></g></symbol>
+</svg>
 
 <!-- Navbar -->
 <header class="nav" id="siteNav">
   <a href="index.html#top" class="brand-logo">
-    <span class="glyph"><img src="assets/img/logo.png" alt="Think Through Technology logo"></span>
+    <span class="glyph"><img src="assets/img/logo-180.png" alt="Think Through Technology logo" width="44" height="44"></span>
     <span class="brand-text">Think Through<small>TECHNOLOGY</small></span>
   </a>
   <nav class="links">
@@ -180,8 +99,8 @@
     <a href="index.html#contact">Contact</a>
   </nav>
   <div class="nav-right">
-    <button class="theme-toggle" aria-label="Toggle day/night mode"><i class="fa-solid fa-sun"></i></button>
-    <a href="index.html#contact" class="nav-cta">Start a Project</a>
+    <button class="theme-toggle" aria-label="Switch to night mode"></button>
+    <a href="index.html#contact" class="nav-cta">Start a project</a>
     <div class="burger"><span></span><span></span><span></span></div>
   </div>
 </header>
@@ -193,91 +112,204 @@
   <a href="about.html">About</a>
   <a href="testimonials.html">Testimonials</a>
   <a href="index.html#contact">Contact</a>
-  <a href="index.html#contact" class="btn-primary mm-cta"><i class="fa-brands fa-whatsapp"></i> Start a Project</a>
+  <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary mm-cta" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg> WhatsApp us</a>
 </div>
 
-<!-- Hero -->
-<section class="hero" id="top">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg">
-    <source src="assets/video/hero-bg.webm" type="video/webm">
-    <source src="assets/video/hero-bg.mp4" type="video/mp4">
-  </video>
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="butterflies" id="butterflies">
-    <span class="butterfly b1"><svg viewBox="0 0 40 30"><path class="wing wing-l" d="M20 15 C9 -2 -2 4 1 15 C-2 26 9 32 20 15Z"/><path class="wing wing-r" d="M20 15 C31 -2 42 4 39 15 C42 26 31 32 20 15Z"/><line class="body" x1="20" y1="5" x2="20" y2="25"/></svg></span>
-    <span class="butterfly b2"><svg viewBox="0 0 40 30"><path class="wing wing-l" d="M20 15 C9 -2 -2 4 1 15 C-2 26 9 32 20 15Z"/><path class="wing wing-r" d="M20 15 C31 -2 42 4 39 15 C42 26 31 32 20 15Z"/><line class="body" x1="20" y1="5" x2="20" y2="25"/></svg></span>
-    <span class="butterfly b3"><svg viewBox="0 0 40 30"><path class="wing wing-l" d="M20 15 C9 -2 -2 4 1 15 C-2 26 9 32 20 15Z"/><path class="wing wing-r" d="M20 15 C31 -2 42 4 39 15 C42 26 31 32 20 15Z"/><line class="body" x1="20" y1="5" x2="20" y2="25"/></svg></span>
-    <span class="butterfly b4"><svg viewBox="0 0 40 30"><path class="wing wing-l" d="M20 15 C9 -2 -2 4 1 15 C-2 26 9 32 20 15Z"/><path class="wing wing-r" d="M20 15 C31 -2 42 4 39 15 C42 26 31 32 20 15Z"/><line class="body" x1="20" y1="5" x2="20" y2="25"/></svg></span>
-    <span class="butterfly b5"><svg viewBox="0 0 40 30"><path class="wing wing-l" d="M20 15 C9 -2 -2 4 1 15 C-2 26 9 32 20 15Z"/><path class="wing wing-r" d="M20 15 C31 -2 42 4 39 15 C42 26 31 32 20 15Z"/><line class="body" x1="20" y1="5" x2="20" y2="25"/></svg></span>
-  </div>
-  <div class="eyebrow">WEBSITE DESIGN &amp; DEVELOPMENT STUDIO</div>
-  <h1>
-    <span class="line"><span>Transforming Your Ideas</span></span>
-    <span class="line"><span class="grad">Into Digital Reality.</span></span>
-  </h1>
-  <p class="sub">Think Through Technology builds fast, beautiful, business‑ready websites — from real estate portals to booking platforms — engineered to convert visitors into customers.</p>
-  <div class="hero-ctas">
-    <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Start a Project</a>
-    <a href="projects.html" class="btn-ghost">View Our Work <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-  </div>
-  <div class="scroll-cue"><span>SCROLL</span><div class="mouse"><div class="dot"></div></div></div>
-</section>
+<main id="top">
 
-<!-- Stadium 3D scroll section -->
-<section class="stadium" id="work">
-  <canvas class="starfield" id="starfield"></canvas>
-  <div class="space-planet planet-a"><span class="ring-belt"></span></div>
-  <div class="space-planet planet-b"></div>
-  <div class="space-planet planet-c"></div>
-  <div class="stadium-perspective">
-    <div class="ring" id="ring"></div>
-    <div class="stadium-floor"></div>
-    <div class="brand-glow" id="brandGlow"></div>
-    <div class="brand-reveal" id="brandReveal">
-      <span class="services-kicker">WHAT WE BUILD</span>
-      <h2 class="services-title">Our <span class="accent-text">Services</span></h2>
-      <div class="services-grid" id="servicesGrid"></div>
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <p class="hello"><span lang="ta">வணக்கம்</span> from Mangadu, Chennai</p>
+    <h1>Websites for local businesses, built by <span class="hl">two people you can call.</span></h1>
+  </div>
+  <div class="wrap hero-in">
+    <div>
+      <p class="sub">We're <b>Mahesh and Sajitha</b>. We design and build websites, booking systems and small CRMs for ambulance services, real estate agents, resorts and builders. You talk to the people doing the work, on WhatsApp, from the first message to the day it goes live.</p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg> WhatsApp us</a>
+        <a href="projects.html" class="btn-ghost">See the work <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <p class="hero-note">80153 04105 · Mon to Sat, 10 AM to 7 PM · We reply within a day</p>
+    </div>
+
+    <div class="pile" aria-label="Three client websites we built">
+      <a class="shot s1" href="https://kurinjiresort.in/" target="_blank" rel="noopener">
+        <span class="bar">kurinjiresort.in</span>
+        <img src="assets/projects/kurinji.jpg" alt="Kurinji Resort website" width="544" height="364">
+      </a>
+      <a class="shot s2" href="https://allbe.in/" target="_blank" rel="noopener">
+        <span class="bar">allbe.in</span>
+        <img src="assets/projects/allbe.jpg" alt="ALLBE Holidays website" width="544" height="364">
+      </a>
+      <a class="shot s3" href="https://www.andavarambulance.in/" target="_blank" rel="noopener">
+        <span class="bar">andavarambulance.in</span>
+        <img src="assets/projects/andavar.jpg" alt="Andavar Ambulance website" width="544" height="364" fetchpriority="high">
+      </a>
     </div>
   </div>
-  <div class="stadium-caption"><span class="cap-index" id="capIndex">01</span><span class="cap-label" id="capLabel">Emergency Ambulance Platform</span></div>
-  <div class="stadium-progress"><i id="progFill"></i></div>
 </section>
 
-<!-- Approach / stats -->
-<section class="approach" id="approach">
-  <div class="approach-head">
-    <div class="kicker">OUR APPROACH</div>
-    <h2>Every build starts with a question — <span>what does this business actually need to grow?</span></h2>
+<!-- Work -->
+<section class="sec sec-alt" id="work">
+  <div class="wrap sec-head" data-reveal>
+    <div>
+      <h2>Sites we've put live</h2>
+      <p>Every one of these is a real business taking calls and bookings today. Tap any to open it.</p>
+    </div>
+    <div class="strip-tools">
+      <a class="text-link" href="projects.html">See all 17</a>
+      <button class="strip-btn" data-strip="prev" aria-label="Previous sites"><svg><use href="#i-back"/></svg></button>
+      <button class="strip-btn" data-strip="next" aria-label="More sites"><svg><use href="#i-arrow"/></svg></button>
+    </div>
   </div>
-
-  <div class="stats-row">
-    <div class="stat" data-target="30"><h3><span class="count">0</span><span class="u">+</span></h3><p>Websites Delivered</p></div>
-    <div class="stat" data-target="10"><h3><span class="count">0</span><span class="u">+</span></h3><p>Industries Served</p></div>
-    <div class="stat" data-target="100"><h3><span class="count">0</span><span class="u">%</span></h3><p>Satisfied Clients</p></div>
-    <div class="stat" data-target="24"><h3><span class="count">0</span><span class="u">hr</span></h3><p>Avg. Response Time</p></div>
-  </div>
-
-  <div class="pillars">
-    <div class="pillar"><i class="fa-solid fa-layer-group"></i><h4>Design That Fits the Business</h4><p>No templates forced onto a brand — every layout, color and interaction is chosen for the industry it serves.</p></div>
-    <div class="pillar"><i class="fa-solid fa-bolt"></i><h4>Built for Speed</h4><p>Lightweight, single‑stack builds that load fast on mobile — where most of your customers actually are.</p></div>
-    <div class="pillar"><i class="fa-solid fa-arrows-rotate"></i><h4>Systems That Run Themselves</h4><p>Firebase backends, WhatsApp automations and admin dashboards so the business runs without a developer on call.</p></div>
+  <div class="strip" id="workStrip" tabindex="0" aria-label="Client websites, scroll sideways">
+    <a class="work" href="https://www.andavarambulance.in/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/andavar.jpg" alt="Andavar Ambulance website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Andavar Ambulance</h3>
+      <p>Ambulance booking with WhatsApp dispatch</p>
+    </a>
+    <a class="work" href="https://allbe.in/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/allbe.jpg" alt="ALLBE Holidays website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>ALLBE Holidays</h3>
+      <p>Travel agency</p>
+    </a>
+    <a class="work" href="https://kurinjiresort.in/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/kurinji.jpg" alt="Kurinji Resort website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Kurinji Resort</h3>
+      <p>Resort booking with season rates</p>
+    </a>
+    <a class="work" href="https://zorrocut.com/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/zorrocut.jpg" alt="ZorroCut website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>ZorroCut</h3>
+      <p>Barbershop billing and attendance</p>
+    </a>
+    <a class="work" href="https://bluepeakconstructions.com/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/bluepeak.jpg" alt="Bluepeak Constructions website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Bluepeak Constructions</h3>
+      <p>Construction company</p>
+    </a>
+    <a class="work" href="https://bmsphotographystudioz.in/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/bms.jpg" alt="BMS Photography Studioz website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>BMS Photography Studioz</h3>
+      <p>Photography studio</p>
+    </a>
+    <a class="work" href="https://maheshkumar040795-afk.github.io/Ammanaina_Real_Estate/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/ammanaina.jpg" alt="Ammanaina Real Estate website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Ammanaina Real Estate</h3>
+      <p>Property listings</p>
+    </a>
+    <a class="work" href="https://srikrithanya.com/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/srikrithanya.jpg" alt="Srikrithanya Pvt Ltd website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Srikrithanya Pvt Ltd</h3>
+      <p>Fire, electrical and MEP engineering</p>
+    </a>
+    <a class="work" href="https://maheshkumar040795-afk.github.io/Jeeva-_jee-_Builders/" target="_blank" rel="noopener">
+      <div class="frame"><img src="assets/projects/jeevajee.jpg" alt="Jeeva Jee Builders website, home page" width="544" height="364" loading="lazy" decoding="async"></div>
+      <h3>Jeeva Jee Builders</h3>
+      <p>Construction and interiors</p>
+    </a>
   </div>
 </section>
 
-<!-- Final CTA -->
-<section class="cta-final" id="contact">
-  <h2>Have a business that needs a website that actually works?</h2>
-  <p>Tell us what you're building — we'll think it through and get back within a day.</p>
-  <div class="hero-ctas">
-    <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> +91 80153 04105</a>
-    <a href="mailto:thinkthroughtechnology@gmail.com" class="btn-ghost"><i class="fa-solid fa-envelope"></i> thinkthroughtechnology@gmail.com</a>
+<!-- So far -->
+<section class="sec">
+  <div class="wrap sofar-row" data-reveal>
+    <p class="sofar"><b>30+ websites delivered</b> so far, for ambulance services, real estate agents, resorts, builders, a barbershop, a photo studio and a travel agency.</p>
+    <div class="sofar-side">
+      <p>Most of our clients' customers are on a phone with a patchy connection, so we build light pages that open fast and put the call and WhatsApp buttons where a thumb can reach them.</p>
+      <p>Where the business needs more than pages, we add the working parts: bookings, enquiries saved to a database, an admin screen you can use yourself.</p>
+    </div>
   </div>
 </section>
+
+<!-- Services -->
+<section class="sec sec-alt" id="services">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>What we take on</h2></div>
+    <div class="svc" data-reveal>
+      <div>
+        <h3>Websites</h3>
+        <ul>
+          <li>Website design</li>
+          <li>Business websites<small>Real estate, healthcare, hospitality, construction</small></li>
+          <li>Student portfolio sites</li>
+          <li>Business profile creation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Software and automation</h3>
+        <ul>
+          <li>CRM application software</li>
+          <li>Invoice generation automation</li>
+          <li>Business process automation</li>
+          <li>WhatsApp campaigns and live chat</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Marketing</h3>
+        <ul>
+          <li>Digital marketing with Meta Ads</li>
+          <li>Instagram growth services</li>
+          <li>Social media marketing (SMM) panels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="sec" id="approach">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>How a project goes</h2></div>
+    <ol class="steps" data-reveal>
+      <li><h3>Tell us about the business</h3><p>A WhatsApp message or a call is enough. We ask what you sell, who buys it and what the site has to do for you.</p></li>
+      <li><h3>Get a written quote</h3><p>What we'll build and what it costs, on paper, before any work starts.</p></li>
+      <li><h3>See it working</h3><p>You get a link to the actual site on your own phone, not a picture of one. Tell us what to change and we change it.</p></li>
+      <li><h3>Go live on your domain</h3><p>We connect your domain, set the site up for Google search and show you how to update it.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- Client messages -->
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <h2>Straight from WhatsApp</h2>
+        <p>Messages clients sent us after their sites went live. Unedited.</p>
+      </div>
+      <a class="text-link" href="testimonials.html">Read all of them</a>
+    </div>
+    <div class="chat" data-reveal>
+      <div class="bubble">I got my website completed within a week, and the entire experience was smooth and professional. They were very responsive to all my doubts and made every correction promptly.<span class="meta">WhatsApp client</span></div>
+      <div class="bubble">Thanks for your fastest response bro. I'm very satisfied with your work 💥<span class="meta">WhatsApp client</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="wrap" data-reveal>
+    <h2>Have a business that needs a website? Call or WhatsApp.</h2>
+    <a class="tel" href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." target="_blank" rel="noopener">80153 04105</a>
+    <div class="hero-ctas">
+      <a href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." class="btn-primary" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg> Message on WhatsApp</a>
+      <a href="tel:+918015304105" class="btn-ghost">Call now</a>
+    </div>
+    <div class="contact-meta">
+      <span>Mon to Sat, 10 AM to 7 PM</span>
+      <span>Mangadu, Chennai 600122</span>
+      <a href="mailto:thinkthroughtechnology@gmail.com">thinkthroughtechnology@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <footer>
   <div class="f-brand">
-    <span class="glyph"><img src="assets/img/logo.png" alt=""></span>
+    <span class="glyph"><img src="assets/img/logo-180.png" alt="" width="28" height="28" loading="lazy"></span>
     <span>© <span id="year"></span> Think Through Technology. All rights reserved.</span>
     <a href="admin/payment-link.html" class="f-admin" rel="nofollow" title="Payment links" aria-label="Payment links (admin)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2m-4 4 3 3m-6-0 3 3"/></svg></a>
   </div>
@@ -289,9 +321,8 @@
     <a href="mailto:thinkthroughtechnology@gmail.com">Email</a>
   </div>
   <div class="f-social">
-    <a href="https://wa.me/918015304105" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-    <a href="https://www.instagram.com/thinkthroughtechnology?igsi=MXBtcmg1cXJ1Y25q" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="https://wa.me/918015304105" target="_blank" rel="noopener" aria-label="WhatsApp"><svg><use href="#i-wa"/></svg></a>
+    <a href="https://www.instagram.com/thinkthroughtechnology" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
   </div>
   <div class="f-legal">
     <a href="contact.html">Contact Us</a>
@@ -302,305 +333,9 @@
   </div>
 </footer>
 
-<a class="float-ig" href="https://www.instagram.com/thinkthroughtechnology?igsi=MXBtcmg1cXJ1Y25q" target="_blank" aria-label="Follow on Instagram"><i class="fa-brands fa-instagram"></i></a>
-<a class="float-wa" href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<a class="float-ig" href="https://www.instagram.com/thinkthroughtechnology" target="_blank" rel="noopener" aria-label="Follow on Instagram"><svg><use href="#i-ig"/></svg></a>
+<a class="float-wa" href="https://wa.me/918015304105?text=Hi%20Think%20Through%20Technology%2C%20I%27d%20like%20to%20discuss%20a%20website%20project." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg><use href="#i-wa"/></svg></a>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/js/main.js"></script>
-
-<script>
-const HAS_GSAP = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined');
-
-/* ---------- Preloader progress (with a safety fallback if GSAP/CDN fails) ---------- */
-function launchButterflies(){
-  const bf = document.getElementById('butterflies');
-  if (!bf || bf.dataset.flew) return;
-  bf.dataset.flew = '1';
-  bf.classList.add('fly');
-}
-
-function hidePreloader(){
-  const preloaderEl = document.getElementById('preloader');
-  if (!preloaderEl || preloaderEl.dataset.hidden) return;
-  preloaderEl.dataset.hidden = '1';
-  if (HAS_GSAP) {
-    gsap.to('#preloader', {
-      opacity: 0, duration: .7, delay: .25, ease: 'power2.out',
-      onComplete: () => { preloaderEl.style.display = 'none'; playHero(); launchButterflies(); }
-    });
-  } else {
-    preloaderEl.style.transition = 'opacity .5s ease';
-    preloaderEl.style.opacity = 0;
-    setTimeout(() => { preloaderEl.style.display = 'none'; launchButterflies(); }, 500);
-  }
-}
-
-window.addEventListener('load', () => {
-  const cat = document.getElementById('caterpillar');
-  const track = document.querySelector('#preloader .cat-track');
-  const pct = document.getElementById('preloadPct');
-  let p = 0;
-  const t = setInterval(() => {
-    p += Math.random() * 18;
-    if (p >= 100) { p = 100; clearInterval(t); }
-    const trackW = track ? track.clientWidth : 240;
-    const catW = cat ? cat.clientWidth : 84;
-    const maxLeft = Math.max(trackW - catW, 0);
-    if (cat) cat.style.left = (maxLeft * (p / 100)) + 'px';
-    pct.textContent = Math.floor(p) + '%';
-    if (p === 100) hidePreloader();
-  }, 120);
-});
-/* hard fallback: never let the preloader trap the site, even if 'load' never fires cleanly */
-setTimeout(hidePreloader, 4500);
-
-/* ---------- Hero text entrance ---------- */
-function playHero(){
-  if (!HAS_GSAP) return;
-  gsap.from('.hero h1 .line span', { yPercent: 120, duration: 1, stagger: .12, ease: 'power4.out' });
-  gsap.from('.eyebrow, .hero p.sub, .hero-ctas, .scroll-cue', { opacity:0, y:20, duration:1, delay:.3, stagger:.12, ease:'power3.out' });
-}
-
-if (HAS_GSAP) gsap.registerPlugin(ScrollTrigger);
-
-/* ---------- Starfield: ambient moving stars behind the ring ---------- */
-(function initStarfield(){
-  const canvas = document.getElementById('starfield');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const stadiumEl = document.getElementById('work');
-  let stars = [];
-  let shootingStars = [];
-  let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
-  let running = true;
-
-  function resize(){
-    w = stadiumEl.clientWidth;
-    h = stadiumEl.clientHeight;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const density = (w < 720) ? 9000 : 5500;
-    const count = Math.max(60, Math.min(260, Math.floor((w * h) / density)));
-    stars = Array.from({ length: count }).map(() => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      z: Math.random() * 1 + 0.3,          // depth: affects size + speed
-      r: Math.random() * 1.3 + 0.3,
-      tw: Math.random() * Math.PI * 2,      // twinkle phase
-      twSpeed: 0.015 + Math.random() * 0.025,
-      hue: Math.random() < 0.15 ? '167,196,255' : (Math.random() < 0.3 ? '255,225,190' : '255,255,255')
-    }));
-  }
-
-  function spawnShootingStar(){
-    if (shootingStars.length > 2) return;
-    const startX = Math.random() * w * 0.6;
-    const startY = Math.random() * h * 0.35;
-    const len = 90 + Math.random() * 70;
-    const angle = Math.PI / 5 + Math.random() * 0.3;
-    shootingStars.push({
-      x: startX, y: startY,
-      vx: Math.cos(angle) * 9, vy: Math.sin(angle) * 9,
-      len, life: 0, maxLife: 40 + Math.random() * 20
-    });
-  }
-
-  let frame = 0;
-  function draw(){
-    if (!running) { requestAnimationFrame(draw); return; }
-    frame++;
-    ctx.clearRect(0, 0, w, h);
-
-    for (const s of stars){
-      s.x -= 0.02 * s.z;                    // slow parallax drift
-      if (s.x < -2) s.x = w + 2;
-      s.tw += s.twSpeed;
-      const twinkle = 0.55 + Math.sin(s.tw) * 0.45;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(${s.hue}, ${ (0.35 + twinkle * 0.65).toFixed(2) })`;
-      ctx.arc(s.x, s.y, s.r * s.z, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    if (frame % 130 === 0 && Math.random() < 0.7) spawnShootingStar();
-    shootingStars = shootingStars.filter(sh => sh.life < sh.maxLife);
-    for (const sh of shootingStars){
-      sh.life++;
-      sh.x += sh.vx; sh.y += sh.vy;
-      const alpha = 1 - sh.life / sh.maxLife;
-      const tailX = sh.x - Math.cos(Math.atan2(sh.vy, sh.vx)) * sh.len;
-      const tailY = sh.y - Math.sin(Math.atan2(sh.vy, sh.vx)) * sh.len;
-      const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
-      grad.addColorStop(0, `rgba(255,255,255,${alpha})`);
-      grad.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(sh.x, sh.y);
-      ctx.lineTo(tailX, tailY);
-      ctx.stroke();
-    }
-    requestAnimationFrame(draw);
-  }
-
-  resize();
-  window.addEventListener('resize', resize);
-  document.addEventListener('visibilitychange', () => { running = !document.hidden; });
-  requestAnimationFrame(draw);
-})();
-
-/* ---------- Build the stadium ring of website cards ---------- */
-/* real client landing pages — screenshots served from /assets/projects/ */
-const projects = [
-  { tag:'Emergency Care',           name:'Andavar Ambulance',      c1:'#f5a623', img:'assets/projects/andavar.jpg',      url:'https://www.andavarambulance.in/' },
-  { tag:'Real Estate',              name:'Ammanaina Real Estate',  c1:'#d4af37', img:'assets/projects/ammanaina.jpg',    url:'https://maheshkumar040795-afk.github.io/Ammanaina_Real_Estate/' },
-  { tag:'Hospitality',              name:'Kurinji Resort',         c1:'#a3336b', img:'assets/projects/kurinji.jpg',      url:'https://kurinjiresort.in/' },
-  { tag:'Grooming',                 name:'ZorroCut',                c1:'#ff6a1a', img:'assets/projects/zorrocut.jpg',     url:'https://zorrocut.com/' },
-  { tag:'Construction',             name:'Bluepeak Constructions', c1:'#2f8fe0', img:'assets/projects/bluepeak.jpg',     url:'https://bluepeakconstructions.com/' },
-  { tag:'Creative',                 name:'BMS Photography Studioz',c1:'#d4af37', img:'assets/projects/bms.jpg',          url:'https://bmsphotographystudioz.in/' },
-  { tag:'Construction & Interiors', name:'Jeeva Jee Builders',     c1:'#ff6a1a', img:'assets/projects/jeevajee.jpg',     url:'https://maheshkumar040795-afk.github.io/Jeeva-_jee-_Builders/' },
-  { tag:'Engineering',              name:'Srikrithanya Pvt Ltd',   c1:'#f5a623', img:'assets/projects/srikrithanya.jpg', url:'https://srikrithanya.com/' },
-  { tag:'Travel',                   name:'ALLBE Holidays',         c1:'#1f7a4d', img:'assets/projects/allbe.jpg',        url:'https://allbe.in/' },
-];
-
-const ring = document.getElementById('ring');
-const count = projects.length;
-const radius = window.innerWidth < 720 ? 300 : 480;
-
-projects.forEach((p, i) => {
-  const angle = (360 / count) * i;
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
-  card.innerHTML = `
-    <div class="card-inner">
-      <div class="chrome">
-        <div class="dots"><i></i><i></i><i></i></div>
-        <div class="url"><i></i></div>
-      </div>
-      <div class="page-shot" style="background-image:url('${p.img}')"></div>
-    </div>
-    <div class="card-label"><span class="dot" style="background:${p.c1}"></span>${p.name}</div>`;
-  ring.appendChild(card);
-});
-
-if (HAS_GSAP) {
-  gsap.set('#ring', { rotationX: 10, transformOrigin: '50% 50%' });
-} else {
-  ring.style.transform = 'rotateX(10deg)';
-}
-
-/* ---------- Master scroll timeline: rotate ring -> converge -> reveal brand ---------- */
-const capIndex = document.getElementById('capIndex');
-const capLabel = document.getElementById('capLabel');
-const progFill = document.getElementById('progFill');
-const RING_PHASE = 0.78;
-
-/* ---------- Build the services grid shown after the ring converges ---------- */
-const services = [
-  { icon:'fa-solid fa-pen-ruler',          label:'Website Design' },
-  { icon:'fa-solid fa-globe',              label:'Website Creation for Businesses' },
-  { icon:'fa-solid fa-graduation-cap',     label:'Student Portfolio Sites' },
-  { icon:'fa-solid fa-users-gear',         label:'CRM Application Software' },
-  { icon:'fa-brands fa-meta',              label:'Digital Marketing (Meta Ads)',      brand:'meta' },
-  { icon:'fa-brands fa-instagram',         label:'Instagram Growth Services',         brand:'instagram' },
-  { icon:'fa-solid fa-chart-line',         label:'Social Media Marketing (SMM) Panels' },
-  { icon:'fa-solid fa-id-badge',           label:'Business Profile Creation' },
-  { icon:'fa-solid fa-file-invoice-dollar',label:'Invoice Generation Automation' },
-  { icon:'fa-solid fa-gears',              label:'Business Process Automation' },
-  { icon:'fa-brands fa-whatsapp',          label:'WhatsApp Campaigns & Live Chat',    brand:'whatsapp' },
-];
-
-const servicesGrid = document.getElementById('servicesGrid');
-services.forEach((s, i) => {
-  const chip = document.createElement('div');
-  chip.className = 'service-chip' + (i === 0 ? ' chip-mascot' : '');
-  const icClass = 'ic' + (s.brand ? ` ic-${s.brand}` : '');
-  chip.innerHTML = `${i === 0 ? '<img class="mascot-img" src="assets/img/mascot-designer.png" alt="">' : ''}<span class="${icClass}"><i class="${s.icon}"></i></span><span>${s.label}</span>`;
-  servicesGrid.appendChild(chip);
-});
-
-if (HAS_GSAP) {
-  const stadiumTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.stadium',
-      start: 'top top',
-      end: '+=320%',
-      scrub: 0.4,
-      pin: true,
-      anticipatePin: 1,
-      fastScrollEnd: true,
-      preventOverlaps: true,
-      onUpdate: (self) => {
-        progFill.style.width = (self.progress * 100).toFixed(1) + '%';
-        const localP = Math.min(self.progress / RING_PHASE, 1);
-        const idx = Math.min(Math.floor(localP * count), count - 1);
-        const num = String(idx + 1).padStart(2, '0');
-        if (capIndex.textContent !== num) {
-          capIndex.textContent = num;
-          capLabel.textContent = projects[idx].name;
-        }
-      }
-    }
-  });
-
-  stadiumTl
-    .to('#ring', { rotationY: -360, duration: 5.0, ease: 'none' }, 0)
-    .to('.card', { z: '-=60', opacity: 0, scale: .4, stagger: 0.02, duration: 1.1, ease: 'power1.in' }, 3.7)
-    .to('.stadium-caption, .stadium-progress', { opacity: 0, duration: .5 }, 3.7)
-    .set('.ring', { visibility: 'hidden' }, 4.9)
-    .to('#brandGlow', { opacity: .45, duration: 1.1 }, 5.0)
-    .fromTo('#brandReveal', { opacity: 0, scale: .92 }, { opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out' }, 5.1)
-    .fromTo('.services-kicker, .services-title', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .6, stagger: .08, ease: 'power3.out' }, 5.2)
-    .fromTo('.service-chip', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, stagger: .035, ease: 'power3.out' }, 5.55);
-
-  /* ---------- Approach section reveals ---------- */
-  gsap.from('.approach-head .kicker, .approach-head h2', {
-    scrollTrigger: { trigger: '.approach-head', start: 'top 80%' },
-    opacity: 0, y: 30, duration: .9, stagger: .1, ease: 'power3.out'
-  });
-
-  gsap.from('.stat', {
-    scrollTrigger: { trigger: '.stats-row', start: 'top 82%' },
-    opacity: 0, y: 24, duration: .7, stagger: .1, ease: 'power3.out'
-  });
-
-  document.querySelectorAll('.stat').forEach(stat => {
-    const target = +stat.dataset.target;
-    const countEl = stat.querySelector('.count');
-    ScrollTrigger.create({
-      trigger: stat, start: 'top 85%', once: true,
-      onEnter: () => gsap.to({ val: 0 }, {
-        val: target, duration: 1.6, ease: 'power2.out',
-        onUpdate: function () { countEl.textContent = Math.floor(this.targets()[0].val); }
-      })
-    });
-  });
-
-  gsap.from('.pillar', {
-    scrollTrigger: { trigger: '.pillars', start: 'top 85%' },
-    opacity: 0, y: 30, duration: .8, stagger: .12, ease: 'power3.out'
-  });
-
-  gsap.from('.cta-final h2, .cta-final p, .cta-final .hero-ctas', {
-    scrollTrigger: { trigger: '.cta-final', start: 'top 75%' },
-    opacity: 0, y: 24, duration: .9, stagger: .12, ease: 'power3.out'
-  });
-} else {
-  /* No animation library available — show final-state content immediately, no motion */
-  document.querySelectorAll('.stat').forEach(stat => {
-    stat.querySelector('.count').textContent = stat.dataset.target;
-  });
-  document.querySelectorAll('.service-chip, .brand-reveal, .services-kicker, .services-title')
-    .forEach(el => { el.style.opacity = 1; });
-}
-
-/* fallback: if load event already fired before listener attached */
-if (document.readyState === 'complete') window.dispatchEvent(new Event('load'));
-</script>
 </body>
 </html>
